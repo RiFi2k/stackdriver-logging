@@ -1,0 +1,17 @@
+<source>
+  type tail
+  format none
+  path /srv/www/{{ item.key }}/logs/access.log
+  pos_file /var/lib/google-fluentd/pos/nginx-access-{{ item.key }}.pos
+  read_from_head true
+  tag nginx-access-{{ item.key }}
+</source>
+
+<source>
+  type tail
+  format none
+  path /srv/www/{{ item.key }}/logs/error.log
+  pos_file /var/lib/google-fluentd/pos/nginx-error-{{ item.key }}.pos
+  read_from_head true
+  tag nginx-error-{{ item.key }}
+</source>

@@ -1,0 +1,18 @@
+---
+- name: Download the logging agent installation script
+  get_url:
+    url: https://dl.google.com/cloudagents/install-logging-agent.sh
+    dest: /opt/install-logging-agent.sh
+    checksum: sha256:07ca6e522885b9696013aaddde48bf2675429e57081c70080a9a1364a411b395
+    mode: u+rwx
+
+- name: Run the logging install script
+  shell: bash install-logging-agent.sh
+  args:
+    chdir: /opt
+    creates: /etc/google-fluentd/google-fluentd.conf
+
+- name: Remove logging install script
+  file:
+    path: /opt/install-logging-agent.sh
+    state: absent

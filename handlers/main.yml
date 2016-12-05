@@ -1,0 +1,5 @@
+---
+- name: reload google-fluentd
+  service:
+    name: google-fluentd
+    state: reloaded

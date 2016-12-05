@@ -1,0 +1,20 @@
+---
+- name: Update google-fluentd package
+  apt:
+    name: google-fluentd
+    state: latest
+    update_cache: yes
+
+- name: Find all google-fluentd default configs
+  find:
+    path: /etc/google-fluentd/config.d
+    file_type: file
+  register: fluentd_files
+
+- name: Remove all google-fluentd default configs
+  file:
+    state: absent
+    path: /etc/google-fluentd/config.d
+  with_items:
+    - "{{ fluentd_files }}"
+  notify: reload google-fluentd

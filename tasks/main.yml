@@ -1,0 +1,66 @@
+---
+- name: Check if google-fluentd is installed
+  stat: path=/etc/google-fluentd/google-fluentd.conf
+  register: google_fluentd_installed
+
+- include: install.yml
+  when: google_fluentd_installed.stat.exists == False
+
+- name: Confirm google-fluentd is running
+  service:
+    name: google-fluentd
+    state: started
+    enabled: yes
+
+- include: after-install.yml
+  when: google_fluentd_installed.stat.exists == False
+
+- name: Create .pos file for each site nginx-access log
+  file:
+    path: "/var/lib/google-fluentd/pos/nginx-access-{{ item.key }}.pos"
+    state: touch
+  with_dict: "{{ wordpress_sites }}"
+
+- name: Create .pos file for each site nginx-error log
+  file:
+    path: "/var/lib/google-fluentd/pos/nginx-error-{{ item.key }}.pos"
+    state: touch
+  with_dict: "{{ wordpress_sites }}"
+
+- name: Make sure config.d directory exists
+  file:
+    path: "/etc/google-fluentd/config.d"
+    state: directory
+
+- name: Create .pos file for each core service
+  file:
+    path: "/var/lib/google-fluentd/pos/{{ item }}.pos"
+    state: touch
+  with_items:
+    - forward
+    - memcache
+    - mysql
+    - nginx
+    - php
+    - syslog_endpoint
+    - syslog
+
+- name: Create logging configuration for each core service
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: "/etc/google-fluentd/config.d/{{ item }}.conf"
+  with_items:
+    - forward
+    - memcache
+    - mysql
+    - nginx
+    - php
+    - syslog_endpoint
+    - syslog
+
+- name: Create logging configuration for each site
+  template:
+    src: "fluentd.conf.j2"
+    dest: "/etc/google-fluentd/config.d/{{ item.key }}.conf"
+  with_dict: "{{ wordpress_sites }}"
+  notify: reload google-fluentd

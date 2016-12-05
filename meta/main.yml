@@ -1,0 +1,41 @@
+galaxy_info:
+  author: "Reilly Lowery"
+  description: 'Automates setting up Stackdriver Logging for Trellis on Google Compute Engine or Amazon EC2'
+  license: MIT
+  min_ansible_version: 1.9
+  platforms:
+  - name: Ubuntu
+    versions:
+  #  - all
+  #  - lucid
+  #  - maverick
+  #  - natty
+  #  - oneiric
+  #  - precise
+  #  - quantal
+  #  - raring
+  #  - saucy
+  #  - trusty
+  #  - utopic
+  #  - vivid
+  #  - wily
+     - xenial
+  #  - yakkety
+  #- name: Debian
+  #  versions:
+  #  - all
+  #  - etch
+  #  - jessie
+  #  - lenny
+  #  - sid
+  #  - squeeze
+  #  - stretch
+  #  - wheezy
+  
+  galaxy_tags:
+    - logging
+    - Trellis
+    - Google Compute Engine
+    - Amazon EC2
+
+dependencies: []
