@@ -4,5 +4,14 @@
   path /var/log/php7.0-fpm.log
   pos_file /var/lib/google-fluentd/pos/php7.0-fpm.pos
   read_from_head true
-  tag php-fpm
+  tag php7.0-fpm
+</source>
+
+<source>
+  type tail
+  format none
+  path /var/log/php7.1-fpm.log
+  pos_file /var/lib/google-fluentd/pos/php7.0-fpm.pos
+  read_from_head true
+  tag php7.1-fpm
 </source>
