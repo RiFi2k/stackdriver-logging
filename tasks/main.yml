@@ -38,6 +38,7 @@
     state: touch
   with_items:
     - forward
+    - fail2ban
     - memcache
     - mysql
     - nginx
@@ -51,6 +52,7 @@
     dest: "/etc/google-fluentd/config.d/{{ item }}.conf"
   with_items:
     - forward
+    - fail2ban
     - memcache
     - mysql
     - nginx
